@@ -80,19 +80,20 @@
     - debug:
         var: out4
 
-    - name: "Build an image and push it to a private repo"
-      docker_image:
+
+        
+    - name: Build an image and push it to a private repo
+      community.docker.docker_image:
         build:
           path: /tmp/{{ job_name }}
         name: 127.0.0.1:5000/lwplabslogin
         tag: "latest"
-        push: yes
-        nocache: yes
-        force: yes
+        push: true
+        source: build 
       register: out5
       tags: docker-image-build
     - debug:
-        var: out5
+        var: out5        
 
 - name: "Play 3 docker stack deploy"
   hosts: dockerMaster
@@ -117,4 +118,3 @@
       tags: docker-stack-deploy
     - debug:
         var: out6
-
